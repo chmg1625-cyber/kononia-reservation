@@ -396,6 +396,133 @@
             color: var(--text-muted);
             text-align: right;
         }
+
+        .notice-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.55rem 1.1rem;
+            background: #fff;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+            margin-left: auto;
+        }
+        .notice-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .notice-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.45);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            opacity: 0; visibility: hidden;
+            transition: all 0.15s ease-out;
+        }
+        .notice-modal-overlay.active {
+            opacity: 1; visibility: visible;
+        }
+        .notice-modal-card {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transform: scale(0.95);
+            transition: transform 0.15s ease-out;
+        }
+        .notice-modal-overlay.active .notice-modal-card {
+            transform: scale(1);
+        }
+        .notice-modal-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1.2rem 1.5rem;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+        }
+        .notice-modal-header h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin: 0;
+        }
+        .notice-close-btn {
+            background: rgba(255,255,255,0.25);
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .notice-close-btn:hover { background: rgba(255,255,255,0.4); }
+        .notice-modal-body {
+            padding: 1.5rem;
+        }
+        .notice-section {
+            margin-bottom: 1.5rem;
+        }
+        .notice-section h4 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 0.6rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .notice-section ol, .notice-section ul {
+            padding-left: 1.3rem;
+        }
+        .notice-section li {
+            font-size: 0.88rem;
+            color: var(--text-main);
+            margin-bottom: 0.45rem;
+            line-height: 1.55;
+        }
+        .notice-section li a {
+            color: var(--primary-color);
+            word-break: break-all;
+        }
+        .notice-highlight {
+            background: #f0fdf4;
+            border-left: 3px solid var(--primary-color);
+            padding: 0.7rem 1rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.88rem;
+            color: var(--text-main);
+            margin-top: 0.8rem;
+            line-height: 1.55;
+        }
+        .notice-warning {
+            background: #fef9c3;
+            border-left: 3px solid #f59e0b;
+            padding: 0.7rem 1rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.88rem;
+            color: #78350f;
+            margin-top: 0.8rem;
+            line-height: 1.55;
+        }
     </style>
 </head>
 <body>
@@ -411,6 +538,7 @@
             <label for="week-select">Semester Academic Week</label>
             <select id="week-select"></select>
         </div>
+        <button class="notice-btn" id="btn-notice">📋 Rules & Notice</button>
     </div>
 
     <div class="legend">
@@ -495,6 +623,67 @@
         <div class="modal-actions">
             <button class="modal-btn cancel" id="btn-detail-close">Close</button>
             <button class="modal-btn delete" id="btn-detail-cancel">Cancel Reservation</button>
+        </div>
+    </div>
+</div>
+
+<!-- Notice Modal -->
+<div class="notice-modal-overlay" id="notice-modal">
+    <div class="notice-modal-card">
+        <div class="notice-modal-header">
+            <h3>📋 Koinonia Rules & Regulations</h3>
+            <button class="notice-close-btn" id="btn-notice-close">✕</button>
+        </div>
+        <div class="notice-modal-body">
+
+            <div class="notice-highlight">
+                We kindly ask all residents of <strong>iHouse</strong> and <strong>Carmichael RC</strong> students to read all the rules & regulations below 😊
+            </div>
+
+            <div class="notice-section" style="margin-top:1.2rem;">
+                <h4>📌 Reservation Instructions</h4>
+                <ol>
+                    <li>Reservations can be made from <strong>one week to one day before</strong> the date of use.<br>
+                        <span style="color:var(--text-muted); font-size:0.83rem;">Ex. If you want to use on 4/10, you can reserve between 4/3–4/9. Booking on the day itself is not allowed.</span>
+                    </li>
+                    <li>Reservation is <strong>first come, first serve</strong>.</li>
+                    <li>When making reservations, please follow this format:<br>
+                        <span style="color:var(--text-muted); font-size:0.83rem;"><strong>Name / Room Number / Kakao ID / No. of People / Reason of Usage</strong></span>
+                    </li>
+                    <li>Each group is allowed to use Koinonia for <strong>max 2 hours per day</strong>, <strong>max 6 hours per week</strong>.</li>
+                    <li>Individuals are <strong>not allowed</strong> to use Koinonia — it is a community space (at least 4 people required).</li>
+                </ol>
+            </div>
+
+            <div class="notice-section">
+                <h4>📐 Rules When Using Koinonia</h4>
+                <ol>
+
+                    <li>Only <strong>iHouse residents or Carmichael RC students</strong> are allowed to use Koinonia.</li>
+                    <li>Do <strong>not lock the door</strong> and do not borrow or take anything from inside without permission.</li>
+                    <li><strong>Please leave the door open</strong> for the next group to enter 🙂</li>
+
+                </ol>
+            </div>
+
+            <div class="notice-section">
+                <h4>📽️ Projector Instructions</h4>
+                <ol>
+                    <li>Plug the projector into the power socket to turn it on.</li>
+                    <li>Press the <strong>Start-Up</strong> button — the screen will come down.</li>
+                    <li>Connect the <strong>HDMI cable</strong> to the HDMI port on your device.</li>
+                    <li>Connect the <strong>audio cable</strong> to the audio port on your device.</li>
+                    <li>After finishing, press the <strong>Shut-Down</strong> button and unplug the projector.</li>
+                </ol>
+                <div class="notice-warning">
+                    If it does not work, please ask in the '25-1 Koinonia Reservation' open chat room.
+                </div>
+            </div>
+
+            <div class="notice-highlight">
+                😊 Koinonia is open everyday <strong>8am–11pm</strong>. If there are <strong>NO reservations</strong> at a specific time, anyone is welcome to use it without a reservation!
+            </div>
+
         </div>
     </div>
 </div>
@@ -641,7 +830,9 @@
         maxFutureDate.setDate(today.getDate() + 7);
         maxFutureDate.setHours(0,0,0,0);
 
-        return targetDate >= today && targetDate <= maxFutureDate;
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+        return targetDate >= tomorrow && targetDate <= maxFutureDate;
     }
 
     function renderCalendarGrid() {
@@ -680,7 +871,12 @@
                 const slotCell = document.createElement('div');
                 slotCell.classList.add('grid-cell');
 
-                if (bookingObj && bookingObj.name) {
+                const isCPT = (day === 'Tue' && hour >= 18);
+
+                if (isCPT) {
+                    slotCell.classList.add('slot-expired');
+                    slotCell.innerHTML = `<span class="status-text" style="color:#6d28d9; font-weight:700;">⛪ CPT Practice</span>`;
+                } else if (bookingObj && bookingObj.name) {
                     slotCell.classList.add('slot-reserved');
                     slotCell.innerHTML = `
                         <span class="reserver-name">👤 ${bookingObj.name}</span>
@@ -824,6 +1020,11 @@
             }
         }
     }
+
+    const noticeModal = document.getElementById('notice-modal');
+    document.getElementById('btn-notice').addEventListener('click', () => noticeModal.classList.add('active'));
+    document.getElementById('btn-notice-close').addEventListener('click', () => noticeModal.classList.remove('active'));
+    noticeModal.addEventListener('click', (e) => { if (e.target === noticeModal) noticeModal.classList.remove('active'); });
 
     weekSelect.addEventListener('change', loadWeekData);
     btnModalCancel.addEventListener('click', closeAllModals);
